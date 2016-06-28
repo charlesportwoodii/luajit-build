@@ -42,7 +42,7 @@ fpm_rpm:
 		-n luajit-2.0 \
 		-v 2.0-$(RELEASEVER) \
 		-C /tmp/luajit-install \
-		-p luajit-2.0_$(RELEASEVER)~_$(shell arch).rpm \
+		-p luajit-2.0_$(RELEASEVER)_$(shell arch).rpm \
 		-m "charlesportwoodii@erianna.com" \
 		--license "MIT" \
 		--url https://github.com/charlesportwoodii/luajit-build \
