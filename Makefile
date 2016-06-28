@@ -40,7 +40,7 @@ fpm_rpm:
 	fpm -s dir \
 		-t rpm \
 		-n luajit-2.0 \
-		-v /tmp/ \
+		-v 2.0-$(RELEASEVER) \
 		-C /tmp/luajit-install \
 		-p luajit-2.0_$(RELEASEVER)~_$(shell arch).rpm \
 		-m "charlesportwoodii@erianna.com" \
