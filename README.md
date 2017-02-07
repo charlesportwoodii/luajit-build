@@ -5,5 +5,5 @@
 This repository allows you to build and package libluajit
 
 ```
-docker-compose run <trusty|xenial>
+docker-compose run <trusty|xenial|centos7|rhel7>
 ```
