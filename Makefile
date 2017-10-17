@@ -1,10 +1,10 @@
 SHELL := /bin/bash
 
-VERSION?=2.0.4
+VERSION?=2.0.5
 RELEASEVER?=1
 SCRIPTPATH=$(shell pwd -P)
 
-build: clean luajit
+build: clean luajit pre_package
 
 clean:
 	rm -rf /tmp/luajit-2.0
@@ -16,34 +16,29 @@ luajit:
 	cd /tmp/luajit-2.0 && \
 	make -j$(CORES)
 
-fpm_debian:
-	echo "Packaging luajit for Debian"
-
+pre_package:
 	cd /tmp/luajit-2.0 && make install DESTDIR=/tmp/luajit-install
 
+fpm_debian:
 	fpm -s dir \
 		-t deb \
 		-n luajit-2.0 \
-		-v 2.0-$(VERSION)-$(RELEASEVER)~$(shell lsb_release --codename | cut -f2) \
+		-v $(VERSION)-$(RELEASEVER)~$(shell lsb_release --codename | cut -f2) \
 		-C /tmp/luajit-install \
-		-p luajit-2.0_$(RELEASEVER)~$(shell lsb_release --codename | cut -f2)_$(shell arch).deb \
+		-p luajit-$(VERSION)-$(RELEASEVER)~$(shell lsb_release --codename | cut -f2)_$(shell arch).deb \
 		-m "charlesportwoodii@erianna.com" \
 		--license "MIT" \
 		--url https://github.com/charlesportwoodii/luajit-build \
 		--description "Lua JIT 2.0" \
 		--deb-systemd-restart-after-upgrade
 
-fpm_rpm:
-	echo "Packaging luajit for RPM"
-
-	cd /tmp/luajit-2.0 && make install DESTDIR=/tmp/luajit-install
-
+fpm_rpm: pre_package
 	fpm -s dir \
 		-t rpm \
 		-n luajit-2.0 \
-		-v 2.0-$(VERSION)$(RELEASEVER) \
+		-v $(VERSION)-$(RELEASEVER) \
 		-C /tmp/luajit-install \
-		-p luajit-2.0_$(RELEASEVER)_$(shell arch).rpm \
+		-p luajit-$(VERSION)-$(RELEASEVER)_$(shell arch).rpm \
 		-m "charlesportwoodii@erianna.com" \
 		--license "MIT" \
 		--url https://github.com/charlesportwoodii/luajit-build \
@@ -51,3 +46,16 @@ fpm_rpm:
 		--vendor "Charles R. Portwood II" \
 		--rpm-digest sha384 \
 		--rpm-compression gzip
+
+fpm_alpine:
+	fpm -s dir \
+		-t apk \
+		-n luajit-2.0 \
+		-v $(VERSION)-$(RELEASEVER)~$(shell uname -m) \
+		-C /tmp/luajit-install \
+		-p luajit-$(VERSION)-$(RELEASEVER)~$(shell uname -m).apk \
+		-m "charlesportwoodii@erianna.com" \
+		--license "MIT" \
+		--url https://github.com/charlesportwoodii/luajit-build \
+		--description "Lua JIT 2.0" \
+		--force
