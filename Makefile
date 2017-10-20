@@ -19,7 +19,7 @@ luajit:
 pre_package:
 	cd /tmp/luajit-2.0 && make install DESTDIR=/tmp/luajit-install
 
-fpm_debian:
+fpm_debian: pre_package
 	fpm -s dir \
 		-t deb \
 		-n luajit-2.0 \
@@ -30,8 +30,7 @@ fpm_debian:
 		--license "MIT" \
 		--url https://github.com/charlesportwoodii/luajit-build \
 		--description "Lua JIT 2.0" \
-		--deb-systemd-restart-after-upgrade \
-		-a $(shell arch)
+		--deb-systemd-restart-after-upgrade
 
 fpm_rpm: pre_package
 	fpm -s dir \
@@ -46,10 +45,9 @@ fpm_rpm: pre_package
 		--description "Lua JIT 2.0" \
 		--vendor "Charles R. Portwood II" \
 		--rpm-digest sha384 \
-		--rpm-compression gzip \
-		-a $(shell arch)
+		--rpm-compression gzip
 
-fpm_alpine:
+fpm_alpine: pre_package
 	fpm -s dir \
 		-t apk \
 		-n luajit-2.0 \
