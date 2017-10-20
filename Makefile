@@ -30,7 +30,8 @@ fpm_debian:
 		--license "MIT" \
 		--url https://github.com/charlesportwoodii/luajit-build \
 		--description "Lua JIT 2.0" \
-		--deb-systemd-restart-after-upgrade
+		--deb-systemd-restart-after-upgrade \
+		-a $(shell arch)
 
 fpm_rpm: pre_package
 	fpm -s dir \
@@ -45,7 +46,8 @@ fpm_rpm: pre_package
 		--description "Lua JIT 2.0" \
 		--vendor "Charles R. Portwood II" \
 		--rpm-digest sha384 \
-		--rpm-compression gzip
+		--rpm-compression gzip \
+		-a $(shell arch)
 
 fpm_alpine:
 	fpm -s dir \
@@ -58,4 +60,5 @@ fpm_alpine:
 		--license "MIT" \
 		--url https://github.com/charlesportwoodii/luajit-build \
 		--description "Lua JIT 2.0" \
-		--force
+		--force \
+		-a $(shell uname -m)
