@@ -19,7 +19,7 @@ luajit:
 pre_package:
 	cd /tmp/luajit-2.0 && make install DESTDIR=/tmp/luajit-install
 
-fpm_debian: pre_package
+fpm_debian:
 	fpm -s dir \
 		-t deb \
 		-n luajit-2.0 \
@@ -32,7 +32,7 @@ fpm_debian: pre_package
 		--description "Lua JIT 2.0" \
 		--deb-systemd-restart-after-upgrade
 
-fpm_rpm: pre_package
+fpm_rpm:
 	fpm -s dir \
 		-t rpm \
 		-n luajit-2.0 \
@@ -47,7 +47,7 @@ fpm_rpm: pre_package
 		--rpm-digest sha384 \
 		--rpm-compression gzip
 
-fpm_alpine: pre_package
+fpm_alpine:
 	fpm -s dir \
 		-t apk \
 		-n luajit-2.0 \
