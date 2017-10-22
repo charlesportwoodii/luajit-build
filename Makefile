@@ -53,7 +53,7 @@ fpm_alpine:
 		-n luajit-2.0 \
 		-v $(VERSION)-$(RELEASEVER)~$(shell uname -m) \
 		-C /tmp/luajit-install \
-		-p luajit-$(VERSION)-$(RELEASEVER)~$(shell uname -m).apk \
+		-p luajit-2.0-$(VERSION)-$(RELEASEVER)~$(shell uname -m).apk \
 		-m "charlesportwoodii@erianna.com" \
 		--license "MIT" \
 		--url https://github.com/charlesportwoodii/luajit-build \
