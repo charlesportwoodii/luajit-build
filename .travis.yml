@@ -9,6 +9,7 @@ env:
   - BUILD_IMAGE=rhel7
   - BUILD_IMAGE=alpine3.6
   - BUILD_IMAGE=alpine3.7
+  - BUILD_IMAGE=alpine3.8
 
 language: generic
 services:
@@ -19,7 +20,7 @@ before_install:
   - curl -L "https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)" -o docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
-  - mkdir -p build/deb/trusty build/deb/xenial build/deb/bionic build/rpm/CentOS/7/x86_64 build/rpm/RHEL/7/x86_64 build/alpine/v3.6/x86_64 build/alpine/v3.7/x86_64
+  - mkdir -p build/deb/trusty build/deb/xenial build/deb/bionic build/rpm/CentOS/7/x86_64 build/rpm/RHEL/7/x86_64 build/alpine/v3.6/x86_64 build/alpine/v3.7/x86_64 build/alpine/v3.8/x86_64
 
 script:
   - if [ -n "$TRAVIS_TAG" ]; then export VERSION=$( cut -d '-' -f 1 <<< "$TRAVIS_TAG" ) export RELEASEVER=$( cut -d '-' -f 2 <<< "$TRAVIS_TAG" ); echo "Setting versions via TravisCI Tag"; fi
@@ -29,10 +30,11 @@ script:
   - if [ "$BUILD_IMAGE" == "rhel7" ]; then mv *.rpm build/rpm/RHEL/7/x86_64; fi
   - if [ "$BUILD_IMAGE" == "alpine3.6" ]; then mv *.apk build/alpine/v3.6/x86_64; fi
   - if [ "$BUILD_IMAGE" == "alpine3.7" ]; then mv *.apk build/alpine/v3.7/x86_64; fi
+  - if [ "$BUILD_IMAGE" == "alpine3.8`" ]; then mv *.apk build/alpine/v3.8/x86_64; fi
 
 deploy:
   provider: s3
-  access_key_id: AKIAJ5QCEUQ2WVNY7GDA
+  access_key_id: AKIAINRCDYGMMTSHTIHA
   bucket: travis-packages.erianna.com
   detect_encoding: true
   skip_cleanup: true
@@ -44,4 +46,4 @@ deploy:
     all_branches: false
     repo: charlesportwoodii/luajit-build
   secret_access_key:
-    secure: PlPpPGcI9ZEsCxUakONejSv3dHv31xtUDxdsYCFf4TzZBLfRTdGxQVYr1J86BHF6DStoum4EPIOn1I8ILvdwulZD2pDuIXjs5q/mrBwnFivNN/B41UF0LAy+SGPs5Z9WfNNHMWSlrYQgema/TM8dmdzipNHPG9GH4KEC0zR0T7ZvrJPZYAEy9HJ0/DmGKYd9yYTiM0f4XF5iOHQT7vGBtAqYjyGy4wFGcej+84ACDh9cSo+78pVv0bb8ltFct4qOjp4INLoNDXcwIC7FEe7gqQqpS4P43XfklFcxmpdWo7XTQHJtSUfAVNp+wuFUznU2wNZCFPkMqXfdorvM0XTZSBzMdTTw0MAJbjCOID8oRsxoj5pEm9qRwoif8EGE0NOGlmgmgfd9MlXa4KMu2EWEyQ3UIKVT/Jpxg2R5T4lPQUNUl1c6pLnlNEEukKGdZ9h8B1KEgPZ7L01veeGmZWa2TH2veg14tleRzs9vkBxsNjd5U3Fe/Exlih4XAi97BrbrM02oH8ngT38ip9pI7+xP43b+Kt/ILugXsYBn/V56OFC6UJc0LRyrKtNuUrbaWon9In5KqCH9Go5lRWF7kr/6xU7zd49n9YWr9ZtLrdqt81sllFVoUKmEUM8PnhM0S2TlagHwB3cdijW2FFxLgfFd/k3UJQtdNn0KgHtL8OenoOo=
+    secure: VPDnBlGUwEyWv345G29RO1Tr1rfJaUPi+idinmEnjPBXUTrMywPS64eWmQhCfYckoo7CmBgOwPufSV1EMU6M+ykDdWZU1fvoUVZaAg0Y10IDldvaLDzFHJoS5W/M+AsP5A/zH3BCfJqQhjP6poiga2vUWwmoaUhvYn41rUDZgON0V/vX+bepCPAmW9W55QakiGuHgrmQ9VsEQ04zTe8NoOuHwOWeJxmM5S1gPQFJTnV2mpIJX0ZRrBIPa8U9CmPyscqWpeckz8V2cyykSo4GJJ14eULbWEJQNhPOW60V4TrorDZCTUaRgG/NXw11PjJVTx+UXLC/lE/yR0OvYcE1vi/9kJ18vtg+gYQgvOg1kW/bAQUFZRjB0CezOTSYeUTP1dNFyPe77BE/KdCWjSm5noL0jMP9zNA3/cY47VLj5EVxVT/8PhBTHJgCBE+hhlA9S4NtE9wyOiQGLksWfkezut3I1jaQcCMRBGBFtdv7D/NT4dr++huIIKxX5A8d8vnkrqah2YBJqICQ6aLip1vf1+2HMQGO1oNjvljLU/1MF3rxMA18kNpq2wlpj6lT8MMO9yJ1JXbzNjc3VxyJtBBzU11E74lOmf/7DNntRSzkp6xNuwvmYQOEggtQg/GJKGxbmA+mCznpk4VcuKaFeqFjofBArfoFW8I9YZXaWykuIRI=
