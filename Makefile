@@ -12,7 +12,7 @@ clean:
 luajit:
 	# Download and install luajit
 	cd /tmp/ && \
-	git clone http://luajit.org/git/luajit-2.0.git --branch v$(VERSION) && \
+	git clone https://github.com/LuaJIT/LuaJIT --branch v$(VERSION) && \
 	cd /tmp/luajit-2.0 && \
 	make -j$(CORES)
 
